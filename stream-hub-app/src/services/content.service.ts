@@ -1,10 +1,9 @@
-// src/services/contentService.ts
 import axios from "axios";
 
 export interface ContentItemData {
   id: number;
   title: string;
-  category?: string; // You can enhance this with a category name if you have it
+  category?: string;
   thumbnail: string;
   type?: "video" | "audio" | "playlist";
 }
@@ -25,7 +24,6 @@ export const fetchContentRows = async (): Promise<ContentRowsResponse> => {
 
     const videos = response.data as any[];
 
-    // Agrupar vídeos por category_id
     const grouped: Record<number, ContentItemData[]> = {};
 
     for (const video of videos) {
@@ -44,7 +42,6 @@ export const fetchContentRows = async (): Promise<ContentRowsResponse> => {
       grouped[video.category_id].push(item);
     }
 
-    // Transformar os grupos em rows
     const contentRows: ContentRowData[] = Object.entries(grouped).map(
       ([categoryId, items]) => ({
         id: `category-${categoryId}`,

@@ -1,63 +1,48 @@
-// src/services/mockCarouselService.ts
+import axios from "axios";
 
-// Define the structure of a single carousel item based on your example
 export interface CarouselItemData {
   id: number;
   title: string;
   description: string;
-  hlsPath?: string; // Optional if not always present/used in carousel
+  hlsPath?: string;
   thumbnail: string;
-  views?: number; // Optional
-  likes?: number; // Optional
+  views?: number;
+  likes?: number;
 }
 
-// Define the expected response structure (assuming it returns an array for a carousel)
 export interface CarouselServiceResponse {
-  data: CarouselItemData[]; // Expecting an array of items for the carousel
+  data: CarouselItemData[];
 }
 
-// Mock data - Create a few items for the carousel
-const mockData: CarouselItemData[] = [
-  {
-    id: 89088,
-    title: "TikTok como inovação na era digital, com Rafael Kiso",
-    description:
-      "Os principais desafios na priorização no desenvolvimento de novos produtos.",
-    thumbnail: `https://picsum.photos/1200/500?random=${Math.random()}`, // Replace with actual or better placeholders
-    hlsPath: "...",
-    views: 105,
-    likes: 12,
-  },
-  {
-    id: 89089,
-    title: "Concorrência em Agências: Inovação a seu favor, com Mariana Silva",
-    description:
-      "Saiba como a inovação pode ser uma grande aliada para o crescimento de sua agência...",
-    thumbnail: `https://picsum.photos/1200/500?random=${Math.random()}`, // Replace with actual or better placeholders
-    hlsPath: "...",
-    views: 22,
-    likes: 0,
-  },
-  {
-    id: 89090,
-    title: "Planejamento de Conteúdo Matador para Vídeos",
-    description:
-      "Descubra as estratégias essenciais para criar vídeos que engajam e convertem.",
-    thumbnail: `https://picsum.photos/1200/500?random=${Math.random()}`, // Replace with actual or better placeholders
-    hlsPath: "...",
-    views: 350,
-    likes: 45,
-  },
-];
+export const fetchFeaturedContent = async (
+  page: number = 1,
+  perPage: number = 3
+): Promise<CarouselServiceResponse> => {
+  try {
+    const response = await axios.get<CarouselServiceResponse>(
+      "http://localhost/api/videos",
+      {
+        params: {
+          category_id: 1,
+          _page: page,
+          _per_page: perPage,
+        },
+      }
+    );
 
-// Simulate an API call
-export const fetchFeaturedContent = (): Promise<CarouselServiceResponse> => {
-  console.log("Mock Service: Fetching featured content...");
-  return new Promise((resolve) => {
-    // Simulate network delay (e.g., 1.5 seconds)
-    setTimeout(() => {
-      console.log("Mock Service: Responding with data.");
-      resolve({ data: mockData });
-    }, 1500);
-  });
+    const data = response.data.map((item: any) => ({
+      id: item.id,
+      title: item.title,
+      description: item.description,
+      thumbnail: item.thumbnail,
+      hlsPath: item.hlsPath,
+      views: item.views,
+      likes: item.likes,
+    }));
+
+    return { data };
+  } catch (error) {
+    console.error("Erro ao buscar conteúdo em destaque:", error);
+    return { data: [] };
+  }
 };
