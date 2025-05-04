@@ -1,0 +1,14 @@
+// .babelrc
+{
+  "presets": ["next/babel"],
+  "plugins": [
+    [
+      "babel-plugin-styled-components",
+      {
+        "ssr": true, // <-- **Crucial for SSR consistency**
+        "displayName": true, // Optional: Improves debugging by adding component names to classes
+        "preprocess": false // Optional: Keep true (default) unless specific issues arise
+      }
+    ]
+  ]
+}
