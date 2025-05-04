@@ -1,4 +1,4 @@
-# Video API - DDD (Domain-Driven Design)
+# Stream Hub API - DDD (Domain-Driven Design)
 
 Este é um projeto de API para gerenciamento de vídeos, implementado utilizando o conceito de **Domain-Driven Design (DDD)**. A API oferece funcionalidades para gerenciar vídeos, incluindo operações como leitura e incremento de visualizações. A implementação segue uma arquitetura limpa e modular, baseada nos princípios de DDD.
 
@@ -129,11 +129,9 @@ http://localhost:8000/api/docs
 
 Se você estiver usando Docker com Sail:
 
-
 ```bash
 http://localhost/api/docs
 ```
-
 
 ## Instalação e Configuração
 
@@ -141,11 +139,11 @@ Siga os passos no **README** para configurar o ambiente de desenvolvimento e ger
 
 ## Tecnologias Utilizadas
 
-- **Laravel 8.x**: Framework PHP utilizado para o desenvolvimento da API.
-- **Docker & Sail**: Para criar um ambiente de desenvolvimento isolado e consistente.
-- **MySQL**: Banco de dados relacional utilizado para persistência.
-- **PHPUnit**: Framework de testes unitários para garantir a qualidade do código.
-- **Swagger**: Para gerar e documentar automaticamente a API.
+-   **Laravel 8.x**: Framework PHP utilizado para o desenvolvimento da API.
+-   **Docker & Sail**: Para criar um ambiente de desenvolvimento isolado e consistente.
+-   **MySQL**: Banco de dados relacional utilizado para persistência.
+-   **PHPUnit**: Framework de testes unitários para garantir a qualidade do código.
+-   **Swagger**: Para gerar e documentar automaticamente a API.
 
 ---
 
