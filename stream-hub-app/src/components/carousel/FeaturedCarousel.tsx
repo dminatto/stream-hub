@@ -4,6 +4,7 @@ import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 import Slider, { Settings } from "react-slick";
 import { FaPlay } from "react-icons/fa";
+import { useRouter } from "next/navigation";
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -14,42 +15,36 @@ import {
 } from "@/services/carousel.service";
 import CarouselSkeletonLoader from "components/skeletons/CarouselSkeleton";
 
-const MOBILE_BREAKPOINT = "768px";
-
 const CarouselWrapper = styled.div`
-  width: 100%;
-  height: 500px;
+  width: 100% !important;
+  height: 56.25vw; 
+  max-height: 600px;
+  min-height: 300px;
   position: relative;
   background-color: #1a1a1a;
+  overflow: hidden;
 
   .slick-slider,
   .slick-list,
   .slick-track,
   .slick-slide > div {
     height: 100%;
-  }
-  .slick-slide {
-    float: left;
-  }
-  .slick-list {
-    overflow: hidden;
-  }
-  .slick-track {
-    display: flex;
-    align-items: stretch;
+    max-width: 100vw !important;
   }
 
   .slick-dots {
     position: absolute;
-    bottom: 25px;
-    left: 4rem;
-    width: auto;
+    bottom: max(25px, 2vw);
+    left: max(20px, 4vw);
+    width: 25px;
+    height: 25px;
     padding: 0;
     margin: 0;
-    list-style: none;
-    display: flex;
+    display: flex !important;
+    transform: translateX(-50%);:
     align-items: center;
-    gap: 10px;
+    gap: max(6px, 0.5vw);
+    z-index: 11;
 
     li button:before {
       content: "";
@@ -59,80 +54,32 @@ const CarouselWrapper = styled.div`
     li button {
       font-size: 0;
       line-height: 0;
-      display: block;
       padding: 0;
       cursor: pointer;
       border: none;
       outline: none;
       background-color: rgba(255, 255, 255, 0.3);
       transition: all 0.3s ease;
-      width: 8px;
-      height: 8px;
+      width: clamp(6px, 0.6vw, 8px);
+      height: clamp(6px, 0.6vw, 8px);
       border-radius: 50%;
     }
 
     li.slick-active button {
       background-color: #ffffff;
-      width: 30px;
-      height: 8px;
+      width: clamp(20px, 2vw, 30px);
+      height: clamp(6px, 0.6vw, 8px);
       border-radius: 4px;
     }
   }
 
   .slick-prev,
   .slick-next {
-    display: none;
-    z-index: 10;
-    width: 40px;
-    height: 40px;
-    background-color: rgba(0, 0, 0, 0.3);
-    border-radius: 50%;
-    transition: background-color 0.2s ease;
-    &:hover {
-      background-color: rgba(0, 0, 0, 0.6);
-    }
-    &:before {
-      font-family: "slick";
-      font-size: 18px;
-      color: #fff;
-      opacity: 1;
-    }
-  }
-  .slick-prev {
-    left: 25px;
-  }
-  .slick-next {
-    right: 25px;
-  }
-
-  @media (max-width: ${MOBILE_BREAKPOINT}) {
-    height: 450px;
-
-    .slick-prev,
-    .slick-next {
-      display: none !important;
-    }
-
-    .slick-dots {
-      left: 1rem;
-      bottom: 20px;
-      gap: 8px;
-
-      li button {
-        width: 6px;
-        height: 6px;
-      }
-      li.slick-active button {
-        width: 24px;
-        height: 6px;
-        border-radius: 3px;
-      }
-    }
-  }
+    display: none !important;
 `;
 
 const SlideWrapper = styled.div`
-  width: 100%;
+  width: auto;
   height: 100%;
   position: relative;
   overflow: hidden;
@@ -147,8 +94,8 @@ const SlideBackground = styled.div<{ $imageUrl: string }>`
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url(${(props) => props.$imageUrl});
-  background-size: contain;
+  background-position: center;
+  background-size: 100% 100%;
   z-index: 1;
 `;
 
@@ -160,22 +107,24 @@ const SlideOverlay = styled.div`
   height: 100%;
   z-index: 2;
   pointer-events: none;
-  /* Gradiente Desktop */
-  background: linear-gradient(
-    to right,
-    rgba(0, 0, 0, 0.8) 0%,
-    rgba(0, 0, 0, 0.6) 30%,
-    rgba(0, 0, 0, 0.1) 70%,
-    rgba(0, 0, 0, 0) 100%
-  );
-  /* Gradiente Mobile */
-  @media (max-width: ${MOBILE_BREAKPOINT}) {
+
+  @media (min-width: 769px) {
+    background: linear-gradient(
+      to right,
+      rgba(0, 0, 0, 0.8) 0%,
+      rgba(0, 0, 0, 0.6) 30%,
+      rgba(0, 0, 0, 0.2) 60%,
+      rgba(0, 0, 0, 0) 100%
+    );
+  }
+
+  @media (max-width: 768px) {
     background: linear-gradient(
       to top,
       rgba(0, 0, 0, 0.9) 0%,
-      rgba(0, 0, 0, 0.8) 20%,
-      rgba(0, 0, 0, 0.3) 50%,
-      rgba(0, 0, 0, 0) 80%
+      rgba(0, 0, 0, 0.7) 30%,
+      rgba(0, 0, 0, 0.3) 70%,
+      rgba(0, 0, 0, 0.1) 100%
     );
   }
 `;
@@ -186,50 +135,53 @@ const SlideContent = styled.div`
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  padding: 3rem 4rem;
-  max-width: 50%;
+  justify-content: space-between;
+  padding: clamp(1rem, 5vw, 4rem);
+  width: 100%;
+  box-sizing: border-box;
+  justify-content: flex-start;
 
-  @media (max-width: ${MOBILE_BREAKPOINT}) {
+  @media (min-width: 769px) {
+    justify-content: center;
+    max-width: min(600px, 50%);
+    padding-right: 2rem;
+  }
+
+  @media (max-width: 768px) {
     justify-content: flex-end;
-    padding: 1.5rem 1rem 5rem 1rem;
-    max-width: 95%;
-    margin: 0 auto;
+    max-width: 100%;
+    padding-bottom: max(4rem, 10vw);
   }
 `;
 
 const SlideCategory = styled.p`
-  font-size: 0.9rem;
+  font-size: clamp(0.7rem, 1vw, 0.9rem);
   color: #bbb;
-  margin-bottom: 0.5rem;
+  margin: 0 0 clamp(0.2rem, 0.5vw, 0.5rem) 0;
   font-weight: 500;
   text-transform: uppercase;
-  @media (max-width: ${MOBILE_BREAKPOINT}) {
-    font-size: 0.8rem;
-    margin-bottom: 0.3rem;
-  }
 `;
 
 const SlideTitle = styled.h2`
-  font-size: 2.8rem;
+  font-size: clamp(1.2rem, 4vw, 2.8rem);
   font-weight: bold;
-  margin-bottom: 0.8rem;
+  margin: 0 0 clamp(0.5rem, 1vw, 1rem) 0;
   line-height: 1.2;
+  max-width: 100%;
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
-  @media (max-width: ${MOBILE_BREAKPOINT}) {
-    font-size: 1.6rem;
-    margin-bottom: 0.6rem;
+
+  @media (max-width: 768px) {
     -webkit-line-clamp: 2;
   }
 `;
 
 const SlideDescription = styled.p`
-  font-size: 1.1rem;
-  margin-bottom: 1.5rem;
+  font-size: clamp(0.9rem, 1.2vw, 1.1rem);
+  margin: 0 0 clamp(1rem, 2vw, 1.5rem) 0;
   line-height: 1.5;
   color: #e0e0e0;
   display: -webkit-box;
@@ -237,7 +189,8 @@ const SlideDescription = styled.p`
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
-  @media (max-width: ${MOBILE_BREAKPOINT}) {
+
+  @media (max-width: 768px) {
     display: none;
   }
 `;
@@ -246,38 +199,37 @@ const PlayButton = styled.button`
   background-color: #fff;
   color: #000;
   border: none;
-  padding: 0.8rem 2rem;
-  font-size: 1rem;
+  padding: clamp(0.6rem, 1vw, 0.8rem) clamp(1rem, 2vw, 2rem);
+  font-size: clamp(0.9rem, 1.1vw, 1rem);
   font-weight: bold;
   border-radius: 5px;
   cursor: pointer;
   transition:
     background-color 0.2s ease,
     transform 0.1s ease;
-  align-self: flex-start;
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  margin-top: 1rem;
 
   svg {
-    font-size: 0.9em;
+    font-size: clamp(0.8rem, 1vw, 0.9rem);
   }
 
   &:hover {
     background-color: #eee;
   }
+
   &:active {
     transform: scale(0.98);
   }
 
-  @media (max-width: ${MOBILE_BREAKPOINT}) {
+  @media (min-width: 769px) {
+    align-self: flex-start;
+  }
+
+  @media (max-width: 768px) {
     width: 100%;
-    padding: 0.8rem 1rem;
-    font-size: 0.95rem;
     justify-content: center;
-    align-self: stretch;
-    margin-top: 0.8rem;
   }
 `;
 
@@ -286,10 +238,11 @@ const StatusMessage = styled.div`
   justify-content: center;
   align-items: center;
   height: 100%;
-  padding: 2rem;
+  padding: clamp(1rem, 2vw, 2rem);
   text-align: center;
   color: #ccc;
-  font-size: 1.1rem;
+  font-size: clamp(0.9rem, 1.2vw, 1.1rem);
+
   &.error {
     color: #f88;
   }
@@ -300,11 +253,43 @@ const FeaturedCarousel: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const sliderRef = useRef<Slider>(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  const router = useRouter();
+
+  console.log(carouselData);
+
+  const handleClick = (id) => {
+    router.push(`/video/${id}`);
+  };
+
+  useEffect(() => {
+    (window as any).carouselData = carouselData;
+    console.log("carouselData disponível em window.carouselData");
+  }, [carouselData]);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    if (typeof window !== "undefined") {
+      checkMobile();
+      window.addEventListener("resize", checkMobile);
+    }
+
+    return () => {
+      if (typeof window !== "undefined") {
+        window.removeEventListener("resize", checkMobile);
+      }
+    };
+  }, []);
 
   useEffect(() => {
     let isMounted = true;
     const loadData = async () => {
       try {
+        setIsLoading(true);
         const response = await fetchFeaturedContent();
         if (isMounted) {
           setCarouselData(response.data);
@@ -339,10 +324,14 @@ const FeaturedCarousel: React.FC = () => {
     slidesToShow: 1,
     slidesToScroll: 1,
     autoplay: true,
-    autoplaySpeed: 6000,
+    autoplaySpeed: isMobile ? 5000 : 6000,
     pauseOnHover: true,
     arrows: false,
     lazyLoad: "ondemand",
+    adaptiveHeight: false,
+    swipe: true,
+    swipeToSlide: true,
+    touchMove: true,
   };
 
   if (isLoading) {
@@ -379,13 +368,15 @@ const FeaturedCarousel: React.FC = () => {
             <SlideContent>
               {item.category && <SlideCategory>{item.category}</SlideCategory>}
               <SlideTitle>{item.title}</SlideTitle>
-              <SlideDescription>{item.description}</SlideDescription>
+              <SlideDescription>{item?.description}</SlideDescription>
               <PlayButton
-                onClick={() => console.log("Play video:", item.id, item.title)}
+                onClick={() => handleClick(item.id)}
                 aria-label={`Reproduzir ${item.title}`}
               >
                 <FaPlay />
-                Reproduzir agora
+                {isMobile && window.innerWidth <= 360
+                  ? "Reproduzir"
+                  : "Reproduzir agora"}
               </PlayButton>
             </SlideContent>
           </SlideWrapper>
