@@ -1,7 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { getVideoById, VideoContent } from "@/services/video.service";
-
 import VideoPlayer from "@/components/media/VideoPlayer";
 import ContentDetailsSection from "@/components/sections/ContentDetailsSection";
 
@@ -17,7 +16,6 @@ const VideoDetailPage = ({ params }: PageProps) => {
   useEffect(() => {
     async function loadContent() {
       const result = await getVideoById(id);
-      console.log(result);
       setContent(result);
     }
 
