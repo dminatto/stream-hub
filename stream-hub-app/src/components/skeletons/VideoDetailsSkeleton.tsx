@@ -1,62 +1,132 @@
-import styled, { keyframes } from "styled-components";
-
-const shimmer = keyframes`
-  0% {
-    background-position: -468px 0;
-  }
-  100% {
-    background-position: 468px 0;
-  }
-`;
+import React from "react";
+import styled from "styled-components";
+import ContentLoader from "react-content-loader";
 
 const SkeletonWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  width: 100%;
+  padding: 20px;
+  background: #121212;
+  color: white;
 `;
 
-const SkeletonElement = styled.div`
-  background-color: #ddd;
-  border-radius: 8px;
-  animation: ${shimmer} 1.5s infinite linear;
-  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-  background-size: 200% 100%;
+const Section = styled.div`
+  margin-bottom: 30px;
 `;
 
-const SkeletonVideoPlayer = styled(SkeletonElement)`
-  height: 200px;
-  width: 100%;
-`;
-
-const SkeletonTitle = styled(SkeletonElement)`
-  height: 24px;
-  width: 60%;
-`;
-
-const SkeletonDescription = styled(SkeletonElement)`
-  height: 16px;
-  width: 80%;
-`;
-
-const SkeletonStats = styled.div`
-  display: flex;
-  gap: 8px;
-`;
-
-const SkeletonStat = styled(SkeletonElement)`
-  height: 12px;
-  width: 30%;
-`;
-
-export const VideoDetailsSkeleton = () => (
+const VideoPageSkeleton = () => (
   <SkeletonWrapper>
-    <SkeletonVideoPlayer />
-    <SkeletonTitle />
-    <SkeletonDescription />
-    <SkeletonStats>
-      <SkeletonStat />
-      <SkeletonStat />
-    </SkeletonStats>
+    <Section>
+      <ContentLoader
+        speed={2}
+        width="100%"
+        height={360}
+        backgroundColor="#2a2a2a"
+        foregroundColor="#3c3c3c"
+      >
+        <rect x="0" y="0" rx="8" ry="8" width="100%" height="360" />
+      </ContentLoader>
+    </Section>
+
+    <Section>
+      <ContentLoader
+        speed={2}
+        width="100%"
+        height={60}
+        backgroundColor="#2a2a2a"
+        foregroundColor="#3c3c3c"
+      >
+        <rect x="0" y="0" rx="4" ry="4" width="60%" height="20" />
+        <rect x="0" y="30" rx="4" ry="4" width="20%" height="20" />
+      </ContentLoader>
+    </Section>
+
+    <Section>
+      <ContentLoader
+        speed={2}
+        width="100%"
+        height={100}
+        backgroundColor="#2a2a2a"
+        foregroundColor="#3c3c3c"
+      >
+        <rect x="0" y="0" rx="4" ry="4" width="30%" height="20" />
+        <rect x="0" y="30" rx="4" ry="4" width="100%" height="60" />
+      </ContentLoader>
+    </Section>
+
+    <Section>
+      <ContentLoader
+        speed={2}
+        width="100%"
+        height={70}
+        backgroundColor="#2a2a2a"
+        foregroundColor="#3c3c3c"
+      >
+        <rect x="0" y="0" rx="4" ry="4" width="40%" height="20" />
+        <rect x="0" y="30" rx="4" ry="4" width="100%" height="30" />
+      </ContentLoader>
+    </Section>
+
+    <Section>
+      <ContentLoader
+        speed={2}
+        width="100%"
+        height={50}
+        backgroundColor="#2a2a2a"
+        foregroundColor="#3c3c3c"
+      >
+        <rect x="0" y="0" rx="4" ry="4" width="20%" height="20" />
+        <rect x="0" y="30" rx="4" ry="4" width="100%" height="15" />
+      </ContentLoader>
+    </Section>
+
+    <Section>
+      <ContentLoader
+        speed={2}
+        width="100%"
+        height={70}
+        backgroundColor="#2a2a2a"
+        foregroundColor="#3c3c3c"
+      >
+        <rect x="0" y="0" rx="4" ry="4" width="30%" height="20" />
+        <rect x="0" y="30" rx="4" ry="4" width="100%" height="30" />
+      </ContentLoader>
+    </Section>
+
+    <Section>
+      <ContentLoader
+        speed={2}
+        width="100%"
+        height={150}
+        backgroundColor="#2a2a2a"
+        foregroundColor="#3c3c3c"
+      >
+        <rect x="0" y="0" rx="4" ry="4" width="30%" height="20" />
+        <rect x="0" y="30" rx="8" ry="8" width="100%" height="100" />
+      </ContentLoader>
+    </Section>
+
+    <Section>
+      <ContentLoader
+        speed={2}
+        width="100%"
+        height={200}
+        backgroundColor="#2a2a2a"
+        foregroundColor="#3c3c3c"
+      >
+        <rect x="0" y="0" rx="4" ry="4" width="40%" height="20" />
+        {[0, 1, 2, 3].map((i) => (
+          <rect
+            key={i}
+            x={`${i * 24}%`}
+            y="40"
+            rx="8"
+            ry="8"
+            width="22%"
+            height="140"
+          />
+        ))}
+      </ContentLoader>
+    </Section>
   </SkeletonWrapper>
 );
+
+export default VideoPageSkeleton;
