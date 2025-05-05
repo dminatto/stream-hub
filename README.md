@@ -1,25 +1,45 @@
 # Stream Hub
 
-Stream Hub é uma plataforma de streaming que permite aos usuários acessar e gerenciar conteúdo de vídeo. O sistema é composto por uma API REST (backend) e uma aplicação web (frontend).
+**Stream Hub** é uma plataforma completa de streaming de vídeo que permite aos usuários explorar, assistir e gerenciar conteúdos sob demanda. A solução é composta por uma **API RESTful** desenvolvida em Laravel e uma **aplicação web** em Next.js que fornece uma interface moderna e responsiva.
 
-## Estrutura do Projeto
+---
 
-O projeto está dividido em duas partes principais:
+## 📁 Estrutura do Projeto
 
-- **stream-hub-api**: Backend em [Laravel](https://laravel.com/) que gerencia catálogo de vídeos e funcionalidades de streaming.
-- **stream-hub-app**: Frontend em [Next](https://nextjs.org/) que oferece uma interface amigável para os usuários interagirem com o sistema.
+O sistema é dividido em dois repositórios principais:
 
-## Requisitos
+### 🔙 `stream-hub-api`
 
-- Node.js (versão X.X.X ou superior)
-- [Banco de dados utilizado]
-- [Outras dependências]
+- **Tecnologia:** Laravel (PHP)
+- **Funções:**
+  - Gerenciamento do catálogo de vídeos
+  - Lógica de streaming e APIs REST
 
-## Instalação e Configuração
+### 💻 `stream-hub-app`
 
-### Backend (stream-hub-api)
+- **Tecnologia:** Next.js (React)
+- **Funções:**
+  - Interface de usuário para navegação e reprodução dos vídeos
+  - Consumo da API para exibir dados dinâmicos
+  - Layout responsivo e foco na experiência do usuário
 
-1. Clone o repositório:
-   ```bash
-   git clone [URL_DO_REPOSITÓRIO]
-   ```
+---
+
+## 🚀 Funcionalidades Principais
+
+- 🎬 Catálogo de vídeos por categorias
+- 📺 Player customizado com suporte a múltiplos dispositivos
+
+---
+
+## 🛠️ Tecnologias Utilizadas
+
+- **Backend:** Laravel, MySQL
+- **Frontend:** Next.js, React, TypeScript, Styled Components
+- **Outros:** Docker, Axios, ESLint, Prettier
+
+---
+
+## 📦 Como Executar o Projeto
+
+> Instruções detalhadas de instalação e execução estão disponíveis em cada repositório (`stream-hub-api` e `stream-hub-app`).
