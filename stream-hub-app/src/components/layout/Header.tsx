@@ -145,7 +145,7 @@ const MobileMenuContainer = styled.div<{ $isOpen: boolean }>`
 const Header: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  const logoUrl = "/logo-placeholder.svg";
+  const logoUrl = "/icon.png";
 
   const handleSearchClick = () => console.log("Search clicked");
   const handleProfileClick = () => console.log("Profile clicked");

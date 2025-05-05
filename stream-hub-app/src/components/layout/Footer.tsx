@@ -120,12 +120,8 @@ const Footer: React.FC = () => {
 
         <DevelopedBy>
           Desenvolvido por{" "}
-          <a
-            href="https://netshow.me"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Netshow.me
+          <a href="" target="_blank" rel="noopener noreferrer">
+            Daniele Minatto
           </a>
           <BetaTag>Beta</BetaTag>
         </DevelopedBy>
