@@ -2,6 +2,7 @@ export interface VideoContent {
   id: number;
   title: string;
   description: string;
+  category_name: string;
   thumbnail: string;
   hlsPath: string;
   views: number;

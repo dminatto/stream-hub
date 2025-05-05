@@ -6,6 +6,7 @@ export interface CarouselItemData {
   description: string;
   hlsPath?: string;
   thumbnail: string;
+  category: string;
   views?: number;
   likes?: number;
 }
@@ -30,11 +31,12 @@ export const fetchFeaturedContent = async (
       }
     );
 
-    const data = response.data.map((item: any) => ({
+    const data = response.data?.map((item: any) => ({
       id: item.id,
       title: item.title,
       description: item.description,
       thumbnail: item.thumbnail,
+      category: item.category_name,
       hlsPath: item.hlsPath,
       views: item.views,
       likes: item.likes,

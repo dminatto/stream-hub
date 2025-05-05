@@ -5,6 +5,7 @@ export interface ContentItemData {
   title: string;
   category?: string;
   thumbnail: string;
+  category_id: string;
   type?: "video" | "audio" | "playlist";
 }
 
@@ -31,8 +32,9 @@ export const fetchContentRows = async (): Promise<ContentRowsResponse> => {
         id: video.id,
         title: video.title,
         thumbnail: video.thumbnail,
+        category_id: video.category_id,
         type: "video",
-        category: `Categoria ${video.category_id}`, // Pode ser substituído por nome real da categoria se tiver
+        category: video.category_name,
       };
 
       if (!grouped[video.category_id]) {
@@ -45,7 +47,7 @@ export const fetchContentRows = async (): Promise<ContentRowsResponse> => {
     const contentRows: ContentRowData[] = Object.entries(grouped).map(
       ([categoryId, items]) => ({
         id: `category-${categoryId}`,
-        title: `Categoria ${categoryId}`, // Pode ser substituído por nome real se disponível
+        title: items[0]?.category ?? "Sem título",
         items,
       })
     );
