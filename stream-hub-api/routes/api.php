@@ -11,5 +11,5 @@ Route::get('/', function () {
 Route::prefix('videos')->group(function () {
     Route::get('/', [VideoController::class, 'index']);
     Route::get('/{id}', [VideoController::class, 'show']);
-    Route::patch('/{id}', [VideoController::class, 'update']);
+    Route::patch('/{id}', [VideoController::class, 'updateLikes']);
 });
