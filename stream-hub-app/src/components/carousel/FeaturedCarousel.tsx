@@ -32,6 +32,11 @@ const CarouselWrapper = styled.div`
     max-width: 100vw !important;
   }
 
+  .slick-slider {
+    width: 100%;
+    overflow: visible;
+  }
+
   .slick-dots {
     position: absolute;
     bottom: max(25px, 2vw);
@@ -133,7 +138,6 @@ const SlideContent = styled.div`
   position: relative;
   z-index: 3;
   flex-grow: 1;
-  display: flex;
   flex-direction: column;
   justify-content: space-between;
   padding: clamp(1rem, 5vw, 4rem);
@@ -257,16 +261,9 @@ const FeaturedCarousel: React.FC = () => {
 
   const router = useRouter();
 
-  console.log(carouselData);
-
   const handleClick = (id) => {
     router.push(`/video/${id}`);
   };
-
-  useEffect(() => {
-    (window as any).carouselData = carouselData;
-    console.log("carouselData disponível em window.carouselData");
-  }, [carouselData]);
 
   useEffect(() => {
     const checkMobile = () => {
@@ -291,6 +288,7 @@ const FeaturedCarousel: React.FC = () => {
       try {
         setIsLoading(true);
         const response = await fetchFeaturedContent();
+        console.log(response.data);
         if (isMounted) {
           setCarouselData(response.data);
           setError(null);
@@ -317,12 +315,12 @@ const FeaturedCarousel: React.FC = () => {
     dots: true,
     appendDots: (dots) => <ul>{dots}</ul>,
     dotsClass: "slick-dots",
-    infinite: true,
     speed: 500,
-    fade: true,
     cssEase: "cubic-bezier(0.7, 0, 0.3, 1)",
+    infinite: carouselData.length > 3,
     slidesToShow: 1,
     slidesToScroll: 1,
+    fade: true,
     autoplay: true,
     autoplaySpeed: isMobile ? 5000 : 6000,
     pauseOnHover: true,

@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import styled, { keyframes } from "styled-components";
 import { fetchContentRows, ContentRowData } from "@/services/content.service";
 import ContentRowSkeleton from "@/components/skeletons/ContentRowSkeleton";
-import ContentRow from "@/components/playlist/PlaylistContentRow";
+import PlaylistContentRow from "./PlaylistContentRow";
 
 const fadeIn = keyframes`
   from {
@@ -25,6 +25,7 @@ const AnimatedRowWrapper = styled.div`
   opacity: 0;
   animation: ${fadeIn} 0.5s ease-out forwards;
   animation-delay: ${(props: { delay: number }) => props.delay}s;
+  margin-bottom: 2rem;
 `;
 
 const Playlist: React.FC = () => {
@@ -102,7 +103,11 @@ const Playlist: React.FC = () => {
       {rowsData.map((row, index) =>
         isDataVisible ? (
           <AnimatedRowWrapper key={row.id} delay={index * 0.1}>
-            <ContentRow title={row.title} items={row.items} rowId={row.id} />
+            <PlaylistContentRow
+              title={row.title}
+              items={row.items}
+              rowId={row.id}
+            />
           </AnimatedRowWrapper>
         ) : (
           <div key={row.id} style={{ height: "200px" }}></div>

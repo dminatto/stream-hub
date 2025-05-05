@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useRef } from "react";
 import styled from "styled-components";
 import Link from "next/link";
 import { ContentItemData } from "@/services/content.service";
 import PlaylistContentCard from "@/components/playlist/PlaylistContentCard";
+import { IoChevronBackOutline, IoChevronForwardOutline } from "react-icons/io5";
 
 interface ContentRowProps {
   title: string;
@@ -63,22 +64,92 @@ const ScrollContainer = styled.div`
   }
 `;
 
+const NavigationControls = styled.div`
+  display: flex;
+  margin-left: 1rem;
+  align-items: center;
+`;
+
+const NavButton = styled.button`
+  background: transparent;
+  border: none;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  &:hover {
+    opacity: 0.8;
+  }
+
+  @media (max-width: 768px) {
+    padding: 0.4rem;
+  }
+
+  @media (max-width: 480px) {
+    padding: 0.3rem;
+  }
+`;
+
+const ViewMoreSection = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
 const PlaylistContentRow: React.FC<ContentRowProps> = ({
   title,
   items,
   rowId,
 }) => {
+  const carouselRefs = useRef<Record<string, HTMLDivElement | null>>({});
+
   if (!items || items.length === 0) {
     return null;
   }
+
+  const scrollCarousel = (rowId: string, direction: "left" | "right") => {
+    const container = carouselRefs.current[rowId];
+    if (container) {
+      const containerWidth = container.clientWidth;
+      const scrollAmount =
+        window.innerWidth < 768 ? containerWidth * 0.7 : containerWidth * 0.8;
+
+      const newScrollPosition =
+        direction === "left"
+          ? container.scrollLeft - scrollAmount
+          : container.scrollLeft + scrollAmount;
+
+      container.scrollTo({
+        left: newScrollPosition,
+        behavior: "smooth",
+      });
+    }
+  };
 
   return (
     <RowWrapper>
       <RowHeader>
         <RowTitle>{title}</RowTitle>
-        <SeeMoreLink href={`/view-all/${rowId}`}>Veja mais</SeeMoreLink>
+        <ViewMoreSection>
+          <SeeMoreLink href={`/view-all/${rowId}`}>Veja mais</SeeMoreLink>
+          <NavigationControls>
+            <NavButton onClick={() => scrollCarousel(rowId, "left")}>
+              <IoChevronBackOutline size={20} />
+            </NavButton>
+            <NavButton onClick={() => scrollCarousel(rowId, "right")}>
+              <IoChevronForwardOutline size={20} />
+            </NavButton>
+          </NavigationControls>
+        </ViewMoreSection>
       </RowHeader>
-      <ScrollContainer>
+      <ScrollContainer ref={(el) => (carouselRefs.current[rowId] = el)}>
         {items.map((item) => (
           <PlaylistContentCard key={item.id} item={item} />
         ))}
