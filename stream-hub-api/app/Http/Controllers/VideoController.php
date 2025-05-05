@@ -52,6 +52,7 @@ class VideoController extends Controller
         $perPage = $request->input('_per_page');
 
         $videos = $this->videoService->getAllVideos($filters, $page, $perPage);
+
         return response()->json($videos);
     }
 

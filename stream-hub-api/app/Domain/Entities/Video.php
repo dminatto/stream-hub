@@ -29,6 +29,7 @@ class Video
     private string $title;
     private ?string $description;
     private string $hlsPath;
+    private string $category_name;
     private string $thumbnail;
     private int $views;
     private int $likes;
@@ -37,6 +38,7 @@ class Video
         int $id,
         string $title,
         ?string $description,
+        string $category_name,
         string $hlsPath,
         string $thumbnail,
         int $views = 0,
@@ -49,6 +51,7 @@ class Video
         $this->thumbnail = $thumbnail;
         $this->views = $views;
         $this->likes = $likes;
+        $this->category_name = $category_name;
     }
 
     public function incrementViews(): void
@@ -94,5 +97,10 @@ class Video
     public function getLikes(): int
     {
         return $this->likes;
+    }
+
+    public function getCategoryName(): string
+    {
+        return $this->category_name;
     }
 }

@@ -16,6 +16,7 @@ class VideoResource extends JsonResource
             'id' => $this->getId(),
             'title' => $this->getTitle(),
             'description' => $this->getDescription(),
+            'category_name' =>  $this->getCategoryName(),
             'hlsPath' => $this->getHlsPath(),
             'thumbnail' => $this->getThumbnail(),
             'views' => $this->getViews(),

@@ -16,6 +16,7 @@ class EloquentVideoRepository implements VideoRepositoryInterface
                 $videoModel->id,
                 $videoModel->title,
                 $videoModel->description,
+                $videoModel->category?->title,
                 $videoModel->hls_path,
                 $videoModel->thumbnail,
                 $videoModel->views,
