@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import styled from "styled-components";
 import ContentLoader from "react-content-loader";
@@ -16,6 +18,7 @@ const VideoPageSkeleton = () => (
   <SkeletonWrapper>
     <Section>
       <ContentLoader
+        uniqueKey="video-skeleton"
         speed={2}
         width="100%"
         height={360}
@@ -28,6 +31,7 @@ const VideoPageSkeleton = () => (
 
     <Section>
       <ContentLoader
+        uniqueKey="video-details-skeleton"
         speed={2}
         width="100%"
         height={60}
@@ -41,6 +45,7 @@ const VideoPageSkeleton = () => (
 
     <Section>
       <ContentLoader
+        uniqueKey="video-details-title"
         speed={2}
         width="100%"
         height={100}
@@ -54,6 +59,7 @@ const VideoPageSkeleton = () => (
 
     <Section>
       <ContentLoader
+        uniqueKey="video-details-description-2"
         speed={2}
         width="100%"
         height={70}
@@ -67,6 +73,7 @@ const VideoPageSkeleton = () => (
 
     <Section>
       <ContentLoader
+        uniqueKey="video-details-description"
         speed={2}
         width="100%"
         height={50}
@@ -80,6 +87,7 @@ const VideoPageSkeleton = () => (
 
     <Section>
       <ContentLoader
+        uniqueKey="video-details-text"
         speed={2}
         width="100%"
         height={70}
@@ -93,6 +101,7 @@ const VideoPageSkeleton = () => (
 
     <Section>
       <ContentLoader
+        uniqueKey="video-details-docs"
         speed={2}
         width="100%"
         height={150}
@@ -106,6 +115,7 @@ const VideoPageSkeleton = () => (
 
     <Section>
       <ContentLoader
+        uniqueKey="video-details-audio"
         speed={2}
         width="100%"
         height={200}
