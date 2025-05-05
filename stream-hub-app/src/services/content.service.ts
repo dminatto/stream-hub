@@ -21,7 +21,9 @@ export interface ContentRowsResponse {
 
 export const fetchContentRows = async (): Promise<ContentRowsResponse> => {
   try {
-    const response = await axios.get("http://localhost/api/videos");
+    const response = await axios.get(
+      `${process.env.NEXT_PUBLIC_API_URL}/videos`
+    );
 
     const videos = response.data as any[];
 

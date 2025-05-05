@@ -21,7 +21,7 @@ export const fetchFeaturedContent = async (
 ): Promise<CarouselServiceResponse> => {
   try {
     const response = await axios.get<CarouselServiceResponse>(
-      "http://localhost/api/videos",
+      `${process.env.NEXT_PUBLIC_API_URL}/videos`,
       {
         params: {
           category_id: 1,
